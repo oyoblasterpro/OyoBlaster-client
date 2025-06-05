@@ -1,23 +1,31 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
   IconCamera,
-  IconChartBar, IconChartDots,
+  IconCapProjecting,
+  IconCategoryPlus,
+  IconChartBar,
+  IconChartDots,
   IconDashboard,
   IconFileAi,
   IconFileDescription,
   IconFolder,
   IconHelp,
   IconInnerShadowTop,
+  IconListDetails,
+  IconMail,
+  IconMessageShare,
+  IconPropeller,
+  IconRouteSquare,
   IconSearch,
   IconSettings,
   IconUsers,
-} from "@tabler/icons-react"
+  IconUsersGroup,
+} from "@tabler/icons-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -26,9 +34,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import Link from "next/link";
-
 
 const data = {
   user: {
@@ -43,9 +50,49 @@ const data = {
       icon: IconDashboard,
     },
     {
+      title: "Email campaingns",
+      url: "/email-campaigns",
+      icon: IconMail,
+    },
+    {
+      title: "SMS Campaigns",
+      url: "/sms-campaingns",
+      icon: IconMessageShare,
+    },
+    {
+      title: "Subscribers",
+      url: "/subscribers",
+      icon: IconUsersGroup,
+    },
+    {
+      title: "Group",
+      url: "/groups",
+      icon: IconListDetails,
+    },
+    {
+      title: "Segment",
+      url: "/segments",
+      icon: IconCategoryPlus,
+    },
+    {
+      title: "Fields",
+      url: "/fields",
+      icon: IconCapProjecting,
+    },
+    {
       title: "Start Campine",
       url: "/start-campine",
       icon: IconChartDots,
+    },
+    {
+      title: "Automations",
+      url: "/atomations",
+      icon: IconPropeller,
+    },
+    {
+      title: "Forms",
+      url: "/forms",
+      icon: IconRouteSquare,
     },
     {
       title: "Analytics",
@@ -127,8 +174,8 @@ const data = {
       url: "#",
       icon: IconSearch,
     },
-  ]
-}
+  ],
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -156,5 +203,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
