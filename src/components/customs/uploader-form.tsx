@@ -133,7 +133,7 @@ export function UploaderForm() {
                     </div>
 
                     <div className="mt-5 flex justify-end">
-                        <Button type="submit">Start Now</Button>
+                        <Button type="submit" className={"bg-blue-400"}>Start Now</Button>
                     </div>
                 </form>
             </CardContent>

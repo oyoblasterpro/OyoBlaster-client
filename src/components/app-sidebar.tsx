@@ -43,7 +43,7 @@ const data = {
       icon: IconDashboard,
     },
     {
-      title: "Start Campine",
+      title: "Email Campines",
       url: "/start-campine",
       icon: IconChartDots,
     },
