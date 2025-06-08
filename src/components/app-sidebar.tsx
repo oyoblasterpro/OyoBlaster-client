@@ -1,23 +1,22 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
   IconCamera,
-  IconChartBar, IconChartDots,
   IconDashboard,
   IconFileAi,
   IconFileDescription,
-  IconFolder,
   IconHelp,
   IconInnerShadowTop,
+  IconListDetails,
+  IconMail,
+  IconMessageShare,
   IconSearch,
   IconSettings,
-  IconUsers,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -26,9 +25,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import Link from "next/link";
-
+import {ILoginUser} from "@/types";
+import {useEffect, useState} from "react";
+import {get_me} from "@/services/auth";
 
 const data = {
   user: {
@@ -36,32 +37,30 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
+  navUser: [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard/user",
       icon: IconDashboard,
     },
     {
-      title: "Email Campines",
-      url: "/start-campine",
-      icon: IconChartDots,
+      title: "Email Campaigns",
+      url: "/dashboard/user/email-campaigns",
+      icon: IconMail,
     },
+    // {
+    //   title: "SMS Campaigns",
+    //   url: "/dashboard/user/sms-campaigns",
+    //   icon: IconMessageShare,
+    // },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "Group",
+      url: "/dashboard/user/groups",
+      icon: IconListDetails,
     },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
+  ],
+  navAdmin:[
+
   ],
   navClouds: [
     {
@@ -127,10 +126,20 @@ const data = {
       url: "#",
       icon: IconSearch,
     },
-  ]
-}
+  ],
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [user,setUser] = useState<ILoginUser | undefined>()
+  useEffect(() => {
+    const fetchUser = async ()=>{
+      const res = await get_me()
+      if(res?.success){
+        setUser(res.data)
+      }
+    }
+    fetchUser()
+  },[])
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -149,12 +158,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={user?.account?.role == "ADMIN" ?data?.navAdmin : data?.navUser} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

@@ -1,0 +1,60 @@
+"use client"
+import React from 'react';
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {LockIcon, MailIcon} from "lucide-react";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
+import Link from "next/link";
+
+const ForgetPasswordForm = () => {
+    const { register, handleSubmit } = useForm()
+
+    const onSubmit:SubmitHandler<FieldValues> = (data) => {
+        console.log('Sending reset password email to:', data.email)
+        // add your submit logic here
+    }
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+            <Card className="w-full max-w-sm p-6 shadow-md">
+                <CardHeader className="flex flex-col items-center gap-2">
+                    <LockIcon className="w-10 h-10 text-gray-600 dark:text-gray-300" />
+                    <CardTitle className="text-xl font-semibold">Forgot Password?</CardTitle>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                        You can reset your password here.
+                    </p>
+                </CardHeader>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <CardContent >
+                        <div className="space-y-4">
+                            <Label htmlFor="email">Email address</Label>
+                            <div className="relative">
+                                <MailIcon className="absolute w-4 h-4 top-3.5 left-3 text-gray-400" />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="email address"
+                                    className="pl-10"
+                                    {...register('email', { required: true })}
+                                />
+                            </div>
+                        </div>
+                    </CardContent>
+
+                    <CardFooter>
+                        <div className={"w-full"}>
+                            <Button className="w-full mt-8" type="submit">
+                                Send reset password email
+                            </Button>
+                            <p className={"mt-4 text-center"}>Have password? <Link className={"text-blue-400 hover:underline"} href="/login">Login</Link></p>
+                        </div>
+                    </CardFooter>
+                </form>
+            </Card>
+        </div>
+    );
+};
+
+export default ForgetPasswordForm;
