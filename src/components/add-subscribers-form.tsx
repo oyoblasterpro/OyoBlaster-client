@@ -7,7 +7,7 @@ import {useRouter} from "next/navigation";
 import io from "socket.io-client";
 
 const AddSubscribersForm = ({groupId}: { groupId:string}) => {
-    const socket = io("https://13.220.206.60");
+    const socket = io("https://api.nexolance.com");
     useEffect(() => {
         socket.on("subscriber-progress", (data) => {
             if(data?.checked && data?.total){

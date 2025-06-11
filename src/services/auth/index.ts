@@ -4,7 +4,7 @@ import {ResetPasswordPayload, TChangePasswordPayload, TRegisterUserPayload} from
 import {cookies} from "next/headers";
 
 // const url = process.env.NEXT_SERVER_URL as string
-const url = "http://13.220.206.60/api"
+const url = "https://api.nexolance.com/api"
 
 export const register_new_user = async (payload: TRegisterUserPayload) => {
     const res = await fetch(url + "/auth/register",

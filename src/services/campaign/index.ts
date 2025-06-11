@@ -4,7 +4,7 @@ import {revalidateTag} from "next/cache";
 import {TEmailCampaign} from "@/types";
 
 // const url = process.env.NEXT_SERVER_URL as string
-const url = "http://13.220.206.60/api"
+const url = "https://api.nexolance.com/api"
 
 // get all campaign
 export const get_all_campaigns = async () => {
