@@ -1,15 +1,12 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AddSubscribersForm from "@/components/add-subscribers-form";
-import {get_all_groups} from "@/services/group";
 
-const Page = async ({params}:{params:{id:string}}) => {
-    const {id} = await params;
-    const {data} = await get_all_groups()
+
+export default async function Page({ params }:{params:any}) {
+    const {id} = await params
     return (
         <div>
-            <AddSubscribersForm groupId={id} groups={data}/>
+            <AddSubscribersForm groupId={id} />
         </div>
     );
-};
-
-export default Page;
+}

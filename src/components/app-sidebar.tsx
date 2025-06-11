@@ -9,7 +9,6 @@ import {
   IconInnerShadowTop,
   IconListDetails,
   IconMail,
-  IconMessageShare,
   IconSearch,
   IconSettings,
 } from "@tabler/icons-react";

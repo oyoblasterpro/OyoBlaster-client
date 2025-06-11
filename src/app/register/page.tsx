@@ -2,7 +2,7 @@ import React from 'react';
 import Link from "next/link";
 import {GalleryVerticalEnd} from "lucide-react";
 import {RegisterForm} from "@/components/register-form";
-
+import Image from "next/image";
 const RegisterPage = () => {
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
@@ -28,10 +28,12 @@ const RegisterPage = () => {
                 </div>
             </div>
             <div className="bg-muted relative hidden lg:block">
-                <img
+                <Image
                     src="/register.webp"
                     alt="Image"
                     className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
+                    height={600}
+                    width={600}
                 />
             </div>
         </div>

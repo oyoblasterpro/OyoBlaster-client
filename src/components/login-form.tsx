@@ -27,7 +27,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
             toast.success(result?.message)
             setLoading(false)
             reset()
-            router.push("/")
+            router.push(`/dashboard/${result?.data?.role.toLowerCase()}`)
         }else {
             toast.error(result?.message)
             setLoading(false)

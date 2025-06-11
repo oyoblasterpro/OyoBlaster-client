@@ -10,9 +10,22 @@ import Link from "next/link";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {toast} from "sonner";
 import {delete_campaign, start_mailing} from "@/services/campaign";
-
+import io from "socket.io-client";
+import {useEffect} from "react";
 
 const EmailCampaigns = ({data}: { data: TEmailCampaign[] }) => {
+    const socket = io("http://13.220.206.60");
+    useEffect(() => {
+        socket.on("mail-progress", (data) => {
+            if(data?.sent && data?.total){
+               toast.loading(`Email sending... ${data?.sent} / ${data?.total}`);
+            }
+        });
+
+        return () => {
+            socket.off("mail-progress");
+        };
+    }, [socket]);
 
     const handle_delete_campaign = async (campaignId: string) => {
         const id = toast.loading("Campaign deleting....");
@@ -25,12 +38,12 @@ const EmailCampaigns = ({data}: { data: TEmailCampaign[] }) => {
     }
 
     const handle_start_campaign =async(campaignId: string) => {
-        const id = toast.loading("Campaign running... please wait...");
+
         const res = await start_mailing(campaignId);
         if (res?.success) {
-            toast.success(`${res?.message} ${res?.data?.totalMails} / ${res?.data?.totalMails} subscribers`, {id});
+            toast.success(`${res?.message} ${res?.data?.totalMails} / ${res?.data?.totalMails} subscribers`,);
         } else {
-            toast.error(res?.message, {id});
+            toast.error(res?.message);
         }
     }
 

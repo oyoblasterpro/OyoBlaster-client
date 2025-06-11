@@ -1,11 +1,24 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
 import {add_new_subscribers_into_group} from "@/services/subscribers";
 import {useRouter} from "next/navigation";
+import io from "socket.io-client";
 
 const AddSubscribersForm = ({groupId}: { groupId:string}) => {
+    const socket = io("http://13.220.206.60");
+    useEffect(() => {
+        socket.on("subscriber-progress", (data) => {
+            if(data?.checked && data?.total){
+                toast.loading(`Email checking... ${data?.checked} / ${data?.total}`,{id:1});
+            }
+        });
+
+        return () => {
+            socket.off("subscriber-progress");
+        };
+    }, [socket]);
     const [file,setFile] = useState<File | null>(null);
     const router = useRouter()
     function downloadFile(type:string) {
@@ -55,12 +68,13 @@ const AddSubscribersForm = ({groupId}: { groupId:string}) => {
 
         const res = await add_new_subscribers_into_group(formData);
         if(res?.success){
-            toast.success(res?.message,{id});
+            toast.success(`${res?.message} - ${res?.data?.valid}/${res?.data?.total} valid`,{id:1});
             router.push("/dashboard/user/groups");
         }else{
-            toast.error(res?.message,{id});
+            toast.error(res?.message,{id:1});
         }
     }
+
     return (
         <div className="min-h-[80vh] flex flex-col lg:flex-row items-start justify-center gap-8 p-6 ">
             {/* Upload Box */}

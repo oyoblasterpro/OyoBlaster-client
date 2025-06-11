@@ -4,6 +4,7 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {ILoginUser} from "@/types";
 import {get_me} from "@/services/auth";
+import Image from "next/image";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,10 +27,12 @@ export default function Navbar() {
                 <div className="lg:flex lg:items-center lg:justify-between">
                     <div className="flex items-center justify-between">
                         <a href="#">
-                            <img
+                            <Image
                                 className="w-auto h-6 sm:h-7"
                                 src="https://merakiui.com/images/full-logo.svg"
                                 alt="Logo"
+                                width={600}
+                                height={600}
                             />
                         </a>
                         {/* Mobile menu button */}
