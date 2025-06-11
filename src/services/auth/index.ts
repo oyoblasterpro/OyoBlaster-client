@@ -19,6 +19,7 @@ export const register_new_user = async (payload: TRegisterUserPayload) => {
 }
 
 export const login_user = async (payload: {email:string,password:string}) => {
+    console.log(url)
     const res = await fetch(url + "/auth/login",
         {
             headers:{
