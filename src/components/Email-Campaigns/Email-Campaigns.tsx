@@ -14,7 +14,7 @@ import io from "socket.io-client";
 import {useEffect} from "react";
 
 const EmailCampaigns = ({data}: { data: TEmailCampaign[] }) => {
-    const socket = io("http://13.220.206.60");
+    const socket = io("https://13.220.206.60");
     useEffect(() => {
         socket.on("mail-progress", (data) => {
             if(data?.sent && data?.total){
