@@ -3,7 +3,8 @@
 import {ResetPasswordPayload, TChangePasswordPayload, TRegisterUserPayload} from "@/types";
 import {cookies} from "next/headers";
 
-const url = process.env.NEXT_SERVER_URL as string
+// const url = process.env.NEXT_SERVER_URL as string
+const url = "http://13.220.206.60/api"
 
 export const register_new_user = async (payload: TRegisterUserPayload) => {
     const res = await fetch(url + "/auth/register",
@@ -19,7 +20,7 @@ export const register_new_user = async (payload: TRegisterUserPayload) => {
 }
 
 export const login_user = async (payload: {email:string,password:string}) => {
-    console.log(url)
+    console.log("my url",url)
     const res = await fetch(url + "/auth/login",
         {
             headers:{

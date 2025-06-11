@@ -2,8 +2,8 @@
 import {cookies} from "next/headers";
 import {revalidateTag} from "next/cache";
 
-const url = process.env.NEXT_SERVER_URL as string
-
+// const url = process.env.NEXT_SERVER_URL as string
+const url = "http://13.220.206.60/api"
 // create new group
 export const create_new_group = async (payload:{groupName:string}) => {
     const token = (await cookies()).get("accessToken")?.value
