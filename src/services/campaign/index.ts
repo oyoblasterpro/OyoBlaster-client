@@ -3,8 +3,7 @@ import {cookies} from "next/headers";
 import {revalidateTag} from "next/cache";
 import {TEmailCampaign} from "@/types";
 
-// const url = process.env.NEXT_SERVER_URL as string
-const url = "https://api.nexolance.com/api"
+const url = process.env.NEXT_SERVER_URL as string || "https://api.nexolance.com/api"
 
 // get all campaign
 export const get_all_campaigns = async () => {

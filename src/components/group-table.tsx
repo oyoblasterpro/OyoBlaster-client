@@ -17,21 +17,16 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {ChevronDown, TextCursorInput, Trash2, UserPlus} from "lucide-react";
+import {ChevronDown, CloudDownload, TextCursorInput, Trash2, UserPlus} from "lucide-react";
 import Link from "next/link";
 import {TGroup} from "@/types";
 import {delete_group} from "@/services/group";
 import {toast} from "sonner";
+import {get_all_subscriber} from "@/services/subscribers";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const GroupTable = ({data}:{data:TGroup[]}) => {
-    // const [group,setGroup] = useState<TGroup[] | undefined>();
-    // useEffect(() => {
-    //     const fetchGroup = async ()=>{
-    //         const res = await get_all_groups();
-    //         setGroup(res.data);
-    //     }
-    //     fetchGroup();
-    // },[])
 
     const handle_delete_group = async (id:string)=>{
         const res = await delete_group(id);
@@ -43,6 +38,36 @@ const GroupTable = ({data}:{data:TGroup[]}) => {
             toast.error(res?.message)
         }
     }
+
+    const download_subscriber = async (groupId: string) => {
+        const id = toast.loading("Subscriber data fetching....");
+
+        const res = await get_all_subscriber(groupId);
+
+        if (res?.success) {
+            toast.loading("Creating XLSX file...", { id });
+
+            const data = res.data?.subscribers;
+
+            // Convert to worksheet
+            const worksheet = XLSX.utils.json_to_sheet(data);
+
+            // Create workbook and append the worksheet
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Subscribers");
+
+            // Write the workbook to binary array
+            const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+            // Save to file
+            const blob = new Blob([wbout], { type: 'application/octet-stream' });
+            saveAs(blob, 'subscribers.xlsx');
+
+            toast.success("XLSX file downloaded!", { id });
+        } else {
+            toast.error("Failed to fetch subscribers", { id });
+        }
+    };
 
     return (
         <div>
@@ -78,6 +103,7 @@ const GroupTable = ({data}:{data:TGroup[]}) => {
                             <TableCell>{gr?.groupName}</TableCell>
                             <TableCell>{gr?.totalSubscriber}</TableCell>
                             <TableCell className="text-right flex items-center justify-end gap-2">
+                                <Button onClick={()=>download_subscriber(gr?._id)} className={"cursor-pointer"} variant={"outline"}><CloudDownload /></Button>
                                 <Button variant={"outline"}>View</Button>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>

@@ -6,8 +6,8 @@ import {add_new_subscribers_into_group} from "@/services/subscribers";
 import {useRouter} from "next/navigation";
 import io from "socket.io-client";
 
-const AddSubscribersForm = ({groupId}: { groupId:string}) => {
-    const socket = io("https://api.nexolance.com");
+const AddSubscribersForm = ({groupId,url}: { groupId:string,url:string}) => {
+    const socket = io(url || "https://api.nexolance.com");
     useEffect(() => {
         socket.on("subscriber-progress", (data) => {
             if(data?.checked && data?.total){
@@ -17,6 +17,8 @@ const AddSubscribersForm = ({groupId}: { groupId:string}) => {
 
         return () => {
             socket.off("subscriber-progress");
+            socket.disconnect();
+            toast.dismiss(1)
         };
     }, [socket]);
     const [file,setFile] = useState<File | null>(null);
@@ -70,6 +72,7 @@ const AddSubscribersForm = ({groupId}: { groupId:string}) => {
         if(res?.success){
             toast.success(`${res?.message} - ${res?.data?.valid}/${res?.data?.total} valid`,{id:1});
             router.push("/dashboard/user/groups");
+            toast.dismiss(id);
         }else{
             toast.error(res?.message,{id:1});
         }

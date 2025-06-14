@@ -3,8 +3,7 @@
 import {ResetPasswordPayload, TChangePasswordPayload, TRegisterUserPayload} from "@/types";
 import {cookies} from "next/headers";
 
-// const url = process.env.NEXT_SERVER_URL as string
-const url = "https://api.nexolance.com/api"
+const url = process.env.NEXT_SERVER_URL as string || "https://api.nexolance.com/api"
 
 export const register_new_user = async (payload: TRegisterUserPayload) => {
     const res = await fetch(url + "/auth/register",
@@ -30,7 +29,9 @@ export const login_user = async (payload: {email:string,password:string}) => {
             body: JSON.stringify(payload)
         }
     );
+    console.log(res)
     const result = await res.json();
+    console.log(result)
     if (result?.success) {
         (await cookies()).set("accessToken", result.data.accessToken);
     }

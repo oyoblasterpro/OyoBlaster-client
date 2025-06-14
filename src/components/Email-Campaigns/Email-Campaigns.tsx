@@ -13,8 +13,8 @@ import {delete_campaign, start_mailing} from "@/services/campaign";
 import io from "socket.io-client";
 import {useEffect} from "react";
 
-const EmailCampaigns = ({data}: { data: TEmailCampaign[] }) => {
-    const socket = io("https://api.nexolance.com");
+const EmailCampaigns = ({data,url}: { data: TEmailCampaign[] ,url:string}) => {
+    const socket = io(url || "https://api.nexolance.com");
     useEffect(() => {
         socket.on("mail-progress", (data) => {
             if(data?.sent && data?.total){
