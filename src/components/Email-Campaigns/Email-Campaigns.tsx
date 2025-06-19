@@ -14,8 +14,8 @@ import io from "socket.io-client";
 import {useEffect} from "react";
 
 const EmailCampaigns = ({data,url}: { data: TEmailCampaign[] ,url:string}) => {
-    // const socket = io(url || "https://api.nexolance.com");
-    const socket = io(url || "http://localhost:5000");
+    const socket = io(url || "https://api.nexolance.com");
+    // const socket = io(url || "http://localhost:5000");
     useEffect(() => {
         socket.on("mail-progress", (data) => {
             if(data?.sent && data?.total){
