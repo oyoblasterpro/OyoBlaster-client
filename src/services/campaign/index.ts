@@ -64,6 +64,7 @@ export const update_campaign = async (payload:Partial<TEmailCampaign>)=>{
 }
 
 export const start_mailing = async (id:string)=>{
+    console.log(url)
     const token = (await cookies()).get("accessToken")?.value
     const res = await fetch(`${url}/campaign/start-mailing/${id}`, {
         method: "POST",

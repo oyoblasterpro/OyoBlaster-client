@@ -14,11 +14,12 @@ import io from "socket.io-client";
 import {useEffect} from "react";
 
 const EmailCampaigns = ({data,url}: { data: TEmailCampaign[] ,url:string}) => {
-    const socket = io(url || "https://api.nexolance.com");
+    // const socket = io(url || "https://api.nexolance.com");
+    const socket = io(url || "http://localhost:5000");
     useEffect(() => {
         socket.on("mail-progress", (data) => {
             if(data?.sent && data?.total){
-               toast.loading(`Email sending... ${data?.sent} / ${data?.total}`);
+               toast.loading(`Email sending... ${data?.sent} / ${data?.total}`,{id:1});
             }
         });
 
@@ -41,7 +42,7 @@ const EmailCampaigns = ({data,url}: { data: TEmailCampaign[] ,url:string}) => {
 
         const res = await start_mailing(campaignId);
         if (res?.success) {
-            toast.success(`${res?.message} ${res?.data?.totalMails} / ${res?.data?.totalMails} subscribers`,);
+            toast.success(`${res?.message} ${res?.data?.totalMails} / ${res?.data?.totalMails} subscribers`,{id:1});
         } else {
             toast.error(res?.message);
         }
